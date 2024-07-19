@@ -66,8 +66,8 @@ namespace TeleperformanceTask.Auth
 
         public async Task<bool> RegisterUser(RegisterationRequest request, CancellationToken cancellationToken)
         {
-            var data = unitOfWork.Repository<User>().FindByCondition(s => s.UserName == request.UserName || s.Password == request.Password).ToList();
-            if (data.Count <= 0) return false;
+            var data = unitOfWork.Repository<User>().FindByCondition(s => s.UserName == request.UserName && s.Password == request.Password).ToList();
+            if (data.Count > 0) return false;
 
             var user = new User();
             user.UserRole = request.UserRole;

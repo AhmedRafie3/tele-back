@@ -15,14 +15,14 @@ namespace TeleperformanceTask.Controllers
     {
         [HttpPost("AddEmployee")]
         
-        public Task<int> AddEmployee([FromForm] AddEmployeeDTO Employee, CancellationToken cancellationToken)
+        public Task<bool> AddEmployee([FromForm] AddEmployeeDTO Employee, CancellationToken cancellationToken)
         {
             return _employeeService.AddEmployee(Employee, cancellationToken);
         }
 
         [HttpDelete("DeleteEmployee")]
         [Authorize(Roles = "Admin")]
-        public Task<int> DeleteEmployee(int id, CancellationToken cancellationToken)
+        public Task<bool> DeleteEmployee(int id, CancellationToken cancellationToken)
         {
             return _employeeService.DeleteEmployee(id, cancellationToken);
         }
@@ -42,7 +42,7 @@ namespace TeleperformanceTask.Controllers
 
         [HttpPut("UpdateEmployee")]
         [Authorize(Roles = "Admin")]
-        public Task<int> UpdateEmployee([FromForm]AddEmployeeDTO Employee, CancellationToken cancellationToken)
+        public Task<bool> UpdateEmployee([FromForm]AddEmployeeDTO Employee, CancellationToken cancellationToken)
         {
             return _employeeService.UpdateEmployee(Employee, cancellationToken);
         }

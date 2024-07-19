@@ -12,8 +12,8 @@ namespace Application.Interfaces
     {
         public Task<List<Employee>> GetAllEmployees();
         public Task<Employee> GetById(int id);
-        public Task<int> AddEmployee(AddEmployeeDTO Employee, CancellationToken cancellationToken);
-        public Task<int> UpdateEmployee(AddEmployeeDTO Employee, CancellationToken cancellationToken);
-        public Task<int> DeleteEmployee(int id, CancellationToken cancellationToken);
+        public Task<bool> AddEmployee(AddEmployeeDTO Employee, CancellationToken cancellationToken);
+        public Task<bool> UpdateEmployee(AddEmployeeDTO Employee, CancellationToken cancellationToken);
+        public Task<bool> DeleteEmployee(int id, CancellationToken cancellationToken);
     }
 }

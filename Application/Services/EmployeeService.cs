@@ -21,31 +21,33 @@ namespace Application.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<int> AddEmployee(AddEmployeeDTO employee, CancellationToken cancellationToken)
+        public async Task<bool> AddEmployee(AddEmployeeDTO employee, CancellationToken cancellationToken)
         {
             if (employee == null) throw new ArgumentNullException();
+            var data = _unitOfWork.Repository<Employee>().FindByCondition(s => s.Email == employee.Email&&s.PhoneNumber==employee.PhoneNumber).ToList();
+            if (data.Count > 0) return false;
 
-            var data = new Employee();
-            data.Name=employee.Name;
-            data.Image= await ConvertToByteArray(employee.Image);
-            data.Grad=employee.Grad;
-            data.Email=employee.Email;
-            data.PhoneNumber=employee.PhoneNumber;
-            _unitOfWork.Repository<Employee>().Create(data);
+            var emp = new Employee();
+            emp.Name=employee.Name;
+            emp.Image= await ConvertToByteArray(employee.Image);
+            emp.Grad=employee.Grad;
+            emp.Email=employee.Email;
+            emp.PhoneNumber=employee.PhoneNumber;
+            _unitOfWork.Repository<Employee>().Create(emp);
             var res = await _unitOfWork.CompleteAsync(cancellationToken);
-            if (res == 0) return 0;
-            else return 1;
+            if (res == 0) return false;
+            else return true;
         }
 
-        public async Task<int> DeleteEmployee(int id, CancellationToken cancellationToken)
+        public async Task<bool> DeleteEmployee(int id, CancellationToken cancellationToken)
         {
             if (id == null) throw new ArgumentNullException();
 
             var data = _unitOfWork.Repository<Employee>().FindByCondition(s => s.Id == id).FirstOrDefault();
             _unitOfWork.Repository<Employee>().Delete(data);
             var res = await _unitOfWork.CompleteAsync(cancellationToken);
-            if (res == 0) return 0;
-            else return 1;
+            if (res == 0) return false;
+            else return true;
 
         }
 
@@ -60,12 +62,12 @@ namespace Application.Services
             return  _unitOfWork.Repository<Employee>().FindByCondition(s => s.Id == id).FirstOrDefault();
         }
 
-        public async Task<int> UpdateEmployee(AddEmployeeDTO employee, CancellationToken cancellationToken)
+        public async Task<bool> UpdateEmployee(AddEmployeeDTO employee, CancellationToken cancellationToken)
         {
             if (employee == null) throw new ArgumentNullException();
 
             var data =  _unitOfWork.Repository<Employee>().FindByCondition(s=>s.Id==employee.Id).FirstOrDefault();
-            if (data == null) return 0;
+            if (data == null) return false;
 
             data.Name = employee.Name;
             data.Email = employee.Email;
@@ -73,8 +75,8 @@ namespace Application.Services
             data.PhoneNumber = employee.PhoneNumber;
             _unitOfWork.Repository<Employee>().Update(data);
             var res = await _unitOfWork.CompleteAsync(cancellationToken);
-            if (res == 0) return 0;
-            else return 1;
+            if (res == 0) return false;
+            else return true;
         }
         private async Task<byte[]> ConvertToByteArray(IFormFile file)
         {
