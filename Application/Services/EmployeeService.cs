@@ -70,6 +70,7 @@ namespace Application.Services
             if (data == null) return false;
 
             data.Name = employee.Name;
+            data.Grad = employee.Grad;
             data.Email = employee.Email;
             data.Image = await ConvertToByteArray(employee.Image);
             data.PhoneNumber = employee.PhoneNumber;
