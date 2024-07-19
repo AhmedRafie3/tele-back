@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Application/bin/Debug/net8.0
+/.vs/TeleperformanceTask/FileContentIndex
+/Application/obj
+/Domain/bin/Debug/net8.0
+/Domain/obj
+/TeleperformanceTask/bin/Debug/net8.0
+/TeleperformanceTask/obj
